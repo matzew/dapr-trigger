@@ -50,7 +50,7 @@ func (h *Handler) receive(ctx context.Context, event cloudevents.Event) (*cloude
 	for i := 1; i <= 10; i++ {
 		order := `{"orderId":` + strconv.Itoa(i) + `}`
 
-		err := h.dapr.PublishEvent(context.Background(), "orderpubsub", "orders", []byte(order))
+		err := h.dapr.PublishEvent(context.Background(), "pubsub", "orders", []byte(order))
 		if err != nil {
 			panic(err)
 		}

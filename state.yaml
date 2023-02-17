@@ -10,4 +10,4 @@ spec:
   - name: redisHost
     value: redis-master.default.svc.cluster.local:6379
   - name: redisPassword
-    value: 1yCfvteZZr
+    value: kLjwEVXz2E
