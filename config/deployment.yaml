@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dapr-trigger
+spec:
+  selector:
+    app: dapr-trigger
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: dapr-trigger
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dapr-trigger
+  labels:
+    app: dapr-trigger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dapr-trigger
+  template:
+    metadata:
+      labels:
+        app: dapr-trigger
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "dapr-trigger"
+        dapr.io/app-port: "8080"
+        dapr.io/metrics-port: "9092"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+      - name: dapr-trigger
+        image: ko://github.com/matzew/dapr-trigger/cmd/server
+        env:
+        - name: APP_PORT
+          value: "8080"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+          name: dapr-trigger
